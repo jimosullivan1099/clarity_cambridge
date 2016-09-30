@@ -74,9 +74,9 @@
     sql: ${TABLE}.ref_service_type
 
 # 
-#   - dimension: ref_user_updated
-#     type: int
-#     sql: ${TABLE}.ref_user_updated
+  - dimension: ref_user_updated 
+    label: 'User Updating'
+    sql: fn_getUserNameById(${TABLE}.ref_user_updated)
 
 #   - dimension: reservation
 #     type: int

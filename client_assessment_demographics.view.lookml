@@ -7,6 +7,7 @@
 
   - dimension: id
     primary_key: true
+    label: 'Assessment ID'
     type: int
     sql: ${TABLE}.id
 
@@ -15,37 +16,71 @@
     timeframes: [time, date, week, month]
     sql: ${TABLE}.added_date
 
-#   - dimension: ami_percent
-#     type: int
-#     sql: ${TABLE}.ami_percent
 
   - dimension: assessment_name
     sql: ${screens.name}
     
   - dimension: assessment_score
     type: int
-    sql: ${client_assessment_scores.score}    
+    sql: ${client_assessment_scores.score}  
+
+  - measure: count_assessment_score
+    type: count
+    filters: 
+      assessment_score: 'NOT NULL'
+
+  - dimension: deleted
+    hidden: true
+    sql: ${TABLE}.deleted    
+
+
+    
     
   - dimension: sub_score_general
     type: int
-    sql: ${client_assessment_scores.a}     
+    group_label: 'VI--SPDAT assessment_questions'
+    sql: ${client_assessment_scores.e}     
     
   - dimension: sub_score_housing
     type: int
-    sql: ${client_assessment_scores.b}   
+    group_label: 'VI--SPDAT assessment_questions'
+    sql: ${client_assessment_scores.a}   
 
   - dimension: sub_score_risks
     type: int
-    sql: ${client_assessment_scores.c}   
+    group_label: 'VI--SPDAT assessment_questions'
+    sql: ${client_assessment_scores.b}   
     
   - dimension: sub_score_socilization
     type: int
-    sql: ${client_assessment_scores.d}   
+    label: 'Sub Score Socialization'
+    group_label: 'VI--SPDAT assessment_questions'
+    sql: ${client_assessment_scores.c}   
     
   - dimension: sub_score_wellness
     type: int
-    sql: ${client_assessment_scores.e}       
+    group_label: 'VI--SPDAT assessment_questions'
+    sql: ${client_assessment_scores.d}       
     
+  - dimension: vi_spdat_q13_v2
+    label: 'Basic Needs Self Care'
+    group_label: 'VI--SPDAT assessment_questions'
+    sql: fn_getPicklistValueName('vi_spdat_q13_v2',${TABLE}.vi_spdat_q13_v2)    
+    
+  - dimension: vi_spdat_q15_v2
+    label: 'Physical Health Reason Lose Housing'
+    group_label: 'VI--SPDAT assessment_questions'
+    sql: fn_getPicklistValueName('vi_spdat_q15_v2',${TABLE}.vi_spdat_q15_v2)
+
+  - dimension: vi_spdat_q18_v2
+    label: 'Physical Disability Restrict Access to Housing'
+    group_label: 'VI--SPDAT assessment_questions'
+    sql: fn_getPicklistValueName('vi_spdat_q18_v2',${TABLE}.vi_spdat_q18_v2)
+    
+  - dimension: vi_spdat_q23c_v2
+    label: 'Learning disability, developmental disability, or other impairment'
+    group_label: 'VI--SPDAT assessment_questions'
+    sql: fn_getPicklistValueName('vi_spdat_q23c_v2',${TABLE}.vi_spdat_q23c_v2)
 
   - measure: assessment_score_average
     type: average
@@ -782,6 +817,7 @@
 #     sql: ${TABLE}.race
 # 
   - dimension: ref_agency
+    hidden: true
     type: int
     sql: ${TABLE}.ref_agency
 # 
@@ -791,7 +827,7 @@
 # 
   - dimension: ref_assessment
     type: int
-    hiden: true
+    hidden: true
     sql: ${TABLE}.ref_assessment
 # 
   - dimension: ref_client
@@ -799,13 +835,13 @@
     type: int
     sql: ${TABLE}.ref_client
 # 
-#   - dimension: ref_user
-#     type: int
-#     sql: ${TABLE}.ref_user
-# 
-#   - dimension: ref_user_updated
-#     type: int
-#     sql: ${TABLE}.ref_user_updated
+  - dimension: ref_user
+    label: 'User Creating'
+    sql: fn_getUserNameById(${TABLE}.ref_user)
+
+  - dimension: ref_user_updated
+    label: 'User Updating'
+    sql: fn_getUserNameById(${TABLE}.ref_user_updated)
 # 
 #   - dimension: rhy_bcp_is
 #     type: int
@@ -1421,9 +1457,135 @@
 #     type: int
 #     sql: ${TABLE}.vi_f_spdat_hh2_gender
 # 
-#   - dimension: vi_f_spdat_pregnancy
-#     type: int
-#     sql: ${TABLE}.vi_f_spdat_pregnancy
+
+
+
+  - dimension: vi_f_spdat_child1_dob
+    type: date_date
+    label: 'Child  1 DoB'
+    group_label: 'VI-FSPDAT assessment_questions'
+    sql: ${TABLE}.vi_f_spdat_child1_dob
+
+  - dimension: vi_f_spdat_child2_dob
+    type: date_date
+    label: 'Child  2 DoB'
+    group_label: 'VI-FSPDAT assessment_questions'
+    sql: ${TABLE}.vi_f_spdat_child2_dob
+
+  - dimension: vi_f_spdat_child3_dob
+    type: date_date
+    label: 'Child  3 DoB'
+    group_label: 'VI-FSPDAT assessment_questions'
+    sql: ${TABLE}.vi_f_spdat_child3_dob    
+
+  - dimension: vi_f_spdat_child4_dob
+    type: date_date
+    label: 'Child  4 DoB'
+    group_label: 'VI-FSPDAT assessment_questions'
+    sql: ${TABLE}.vi_f_spdat_child4_dob
+
+  - dimension: vi_f_spdat_child5_dob
+    type: date_date
+    label: 'Child  5 DoB'
+    group_label: 'VI-FSPDAT assessment_questions'
+    sql: ${TABLE}.vi_f_spdat_child5_dob
+    
+  - dimension: vi_f_spdat_child6_dob
+    type: date_date
+    label: 'Child  6 DoB'
+    group_label: 'VI-FSPDAT assessment_questions'  
+    sql: ${TABLE}.vi_f_spdat_child6_dob
+    
+  - dimension: vi_f_spdat_child7_dob
+    type: date_date
+    label: 'Child  7 DoB'
+    group_label: 'VI-FSPDAT assessment_questions'
+    sql: ${TABLE}.vi_f_spdat_child7_dob
+    
+  - dimension: vi_f_spdat_child8_dob
+    type: date_date
+    label: 'Child  8 DoB'
+    group_label: 'VI-FSPDAT assessment_questions'
+    sql: ${TABLE}.vi_f_spdat_child8_dob    
+
+  - dimension: vi_f_spdat_child9_dob
+    type: date_date
+    label: 'Child  9 DoB'
+    group_label: 'VI-FSPDAT assessment_questions'
+    sql: ${TABLE}.vi_f_spdat_child8_dob
+
+  - dimension: vi_f_spdat_child10_dob
+    type: date_date
+    label: 'Child 10 DoB'
+    group_label: 'VI-FSPDAT assessment_questions'
+    sql: ${TABLE}.vi_f_spdat_child10_dob
+    
+    
+  - dimension: vi_f_spdat_pregnancy
+    group_label: 'VI-FSPDAT assessment_questions'
+    sql: fn_getPicklistValueName('vi_f_spdat_pregnancy',${TABLE}.vi_f_spdat_pregnancy)    
+
+
+  - dimension: vi_spdat_q23a_v2
+    label: 'Mental health issue or concern?'
+    group_label: 'VI--SPDAT assessment_questions'
+    sql: fn_getPicklistValueName('vi_spdat_q23a_v2',${TABLE}.vi_spdat_q23a_v2)    
+
+  - dimension: vi_spdat_q23b_v2
+    label: 'Head injury?'
+    group_label: 'VI--SPDAT assessment_questions'
+    sql: fn_getPicklistValueName('vi_spdat_q23b_v2',${TABLE}.vi_spdat_q23b_v2)    
+    
+  - dimension: vi_f_spdat_q28_v2
+    label: 'Tri-morbidity of one household member?'
+    group_label: 'VI-FSPDAT assessment_questions'
+    sql: fn_getPicklistValueName('vi_f_spdat_q28_v2',${TABLE}.vi_f_spdat_q28_v2)  
+    
+  - dimension: vi_spdat_q1
+    label: 'Time since housing'
+    group_label: 'VI--SPDAT assessment_questions'
+    sql: fn_getPicklistValueName('vi_spdat_q1',${TABLE}.vi_spdat_q1)  
+    
+  - dimension: vi_y_spdat_q1
+    label: 'Where do you sleep most frequently?'
+    group_label: 'VI--SPDAT assessment_questions'
+    sql: fn_getPicklistValueName('vi_y_spdat_q1',${TABLE}.vi_y_spdat_q1)  
+
+  - dimension: vi_spdat_q8
+    label: 'Have you been attacked or beaten up since you’ve become homeless?'
+    group_label: 'VI--SPDAT assessment_questions'
+    sql: fn_getPicklistValueName('vi_spdat_q8',${TABLE}.vi_spdat_q8)  
+        
+        
+  - dimension: vi_spdat_q9
+    label: 'Have you threatened to or tried to harm yourself or anyone else in the last year?'
+    group_label: 'VI--SPDAT assessment_questions'
+    sql: fn_getPicklistValueName('vi_spdat_q9',${TABLE}.vi_spdat_q9)  
+    
+  - dimension: vi_spdat_q24_v2
+    label: 'Mental health or brain issues'
+    group_label: 'VI--SPDAT assessment_questions'
+    sql: fn_getPicklistValueName('vi_spdat_q24_v2',${TABLE}.vi_spdat_q24_v2)  
+        
+        
+  - dimension: benefits_medicaid
+    label: 'Medicaid'
+    group_label: 'VI--SPDAT assessment_questions'
+    sql: fn_getPicklistValueName('benefits_medicaid',${TABLE}.benefits_medicaid)  
+
+  - dimension: previous_foster_care
+    label: 'Previous Foster Care'
+    group_label: 'VI--SPDAT assessment_questions'
+    sql: fn_getPicklistValueName('previous_foster_care',${TABLE}.previous_foster_care)  
+        
+        
+  - dimension: income_individual
+    label: 'Total Monthly Income'
+    group_label: 'VI--SPDAT assessment_questions'
+    sql: ${TABLE}.income_individual
+
+
+    
 # 
 #   - dimension: vi_f_spdat_q41
 #     type: int
@@ -1520,9 +1682,10 @@
 #     type: int
 #     sql: ${TABLE}.vi_spdat_q19
 # 
-#   - dimension: vi_spdat_q2
-#     type: int
-#     sql: ${TABLE}.vi_spdat_q2
+  - dimension: vi_spdat_q2
+    label: 'Homeless Number of Times'
+    group_label: 'VI--SPDAT assessment_questions'
+    sql: fn_getPicklistValueName('vi_spdat_q2',${TABLE}.vi_spdat_q2)
 # 
 #   - dimension: vi_spdat_q20
 #     type: int
@@ -1660,13 +1823,15 @@
 #     type: int
 #     sql: ${TABLE}.vi_spdat_q50
 # 
-#   - dimension: vi_spdat_q6
-#     type: int
-#     sql: ${TABLE}.vi_spdat_q6
+  - dimension: vi_spdat_q6
+    label: 'Crisis Services Number of Times'
+    group_label: 'VI--SPDAT assessment_questions'
+    sql: fn_getPicklistValueName('vi_spdat_q6',${TABLE}.vi_spdat_q6)
 # 
-#   - dimension: vi_spdat_q7
-#     type: int
-#     sql: ${TABLE}.vi_spdat_q7
+  - dimension: vi_spdat_q7
+    label: 'Hospitalization Number Times Inpatient'
+    group_label: 'VI--SPDAT assessment_questions'
+    sql: fn_getPicklistValueName('vi_spdat_q7',${TABLE}.vi_spdat_q7)
 # 
 #   - dimension: vi_spdat_q8
 #     type: int
@@ -1687,6 +1852,9 @@
   - measure: count
     type: count
     drill_fields: detail*
+    
+ 
+    
 
 
   # ----- Sets of fields for drilling ------

@@ -55,6 +55,14 @@
   - dimension: cascade_threshold
     type: int
     sql: ${TABLE}.cascade_threshold
+    
+  - dimension: availability
+    sql_case:
+            Limited: ${TABLE}.availability = 1
+            Full: ${TABLE}.availability = 2
+            else: None  
+
+
 
   - dimension: close_services
     type: yesno
@@ -91,15 +99,14 @@
     type: int
     sql: ${TABLE}.enable_notes
 
+  - dimension: enable_assessments
+    type: yesno
+    sql: ${TABLE}.enable_assessments
+
   - dimension: funding_source
     hidden: true
     type: int
     sql: ${TABLE}.funding_source
-
-  - dimension: funder
-    label: 'Project Funding Source'
-    bypass_suggest_restrictions: true
-    sql: fn_getPicklistValueName('funding_source',${funding_source})   #program_categories
 
   - dimension: geocode
     sql: ${TABLE}.geocode
@@ -170,9 +177,9 @@
 
 
 
-  - dimension: ref_user_updated
-    type: int
-    sql: ${TABLE}.ref_user_updated
+  - dimension: ref_user_updated 
+    label: 'User Updating'
+    sql: fn_getUserNameById(${TABLE}.ref_user_updated)
 
   - dimension: site_id
     type: int
@@ -185,9 +192,9 @@
     sql: ${TABLE}.status
 
   - dimension: tracking_method
-    type: int
-    sql: ${TABLE}.tracking_method
-
+    sql: fn_getPicklistValueName('tracking_method',${TABLE}.tracking_method)   
+    
+    
   - measure: count
     type: count
     drill_fields: detail*

@@ -18,6 +18,10 @@
     
   - dimension: service_item_id
     sql: ${service_items.id}
+    
+  - dimension: deleted
+    type: yesno
+    sql: ${service_items.deleted}    
         
 
   - dimension: ref_agency
@@ -29,6 +33,14 @@
     label: 'Service Category'
     bypass_suggest_restrictions: true
     sql: fn_getPicklistValueName('service_categories',${TABLE}.ref_category)  
+    
+    
+  - dimension: delivery_type
+    bypass_suggest_restrictions: true
+    sql_case:
+       Long Term: ${service_items.ref_delivery_type} = 1
+       Daily Attendance: ${service_items.ref_delivery_type} = 2
+       Multiple Attendance: ${service_items.ref_delivery_type} = 3    
 
   - measure: count
     type: count

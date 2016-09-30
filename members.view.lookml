@@ -78,6 +78,19 @@
 
   - dimension: email
     sql: ${users.email}    
+
+  - dimension: access_role
+    sql: ${user_groups.name}    
+
+  - dimension: user_last_updated
+    sql: ${users.ref_user_updated}
+
+  - dimension: last_updated 
+    sql: ${users.last_updated_date}    
+
+  - dimension:  status
+    sql: ${users.user_status}    
+    
     
   - dimension: deleted
     type: yesno

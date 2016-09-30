@@ -3,7 +3,7 @@
   fields:
 
   - dimension: id
-    label: 'Personal Id'
+    label: 'Personal Id '
     primary_key: true
     type: int
     sql: ${TABLE}.id
@@ -31,6 +31,7 @@
 
   - dimension_group: birth
     label: 'Date of Birth'
+    description: ' This is the clients date of birth'
     type: time
     timeframes: [date, week, month, year]
     convert_tz: false
@@ -54,17 +55,16 @@
     sql: ${age}
 
   - dimension: dob_quality
-    type: hidden
-    type: int
-    sql: ${TABLE}.dob_quality
+    label: 'DoB Data Quality'
+    sql: fn_getPicklistValueName('dob_quality', ${TABLE}.dob_quality)
+
 
   - dimension: first_name
     sql: ${TABLE}.first_name
 
-  - dimension: fl_private
-    hidden: true
+  - dimension: private
     type: yesno
-    sql: ${TABLE}.fl_private
+    sql: ${TABLE}.private
 
   - dimension: image
     hidden: true
@@ -82,29 +82,26 @@
 
 
 
-  - dimension_group: last_updated
+  - dimension_group: last_updated_date
     label: 'Date Updated'
-    type: time
-    timeframes: [time, date, week, month]
+    type: date
     sql: ${TABLE}.last_updated
 
   - dimension: name_quality
-    hidden: true
-    type: int
-    sql: ${TABLE}.name_quality
-
+    label: 'Name Data Quality'
+    sql: fn_getPicklistValueName('name_quality', ${TABLE}.name_quality)
+    
   - dimension: ref_agency_created
     hidden: true
     type: int
     sql: ${TABLE}.ref_agency_created
 
-  - dimension: ref_user_updated
-    hidden: true
-    type: int
-    sql: ${TABLE}.ref_user_updated
+  - dimension: ref_user_updated 
+    label: 'User Updating'
+    sql: fn_getUserNameById(${TABLE}.ref_user_updated)
 
   - dimension: ssn
-    hidden: true
+    label: 'SSN'
     sql: ${TABLE}.ssn
 
   - dimension: ssn1
@@ -116,13 +113,12 @@
     sql: ${TABLE}.ssn2
 
   - dimension: ssn3
-    label: 'Last 4 SSN'
+    label: 'SSN - Last 4'
     sql: ${TABLE}.ssn3
 
   - dimension: ssn_quality
-    hidden: true
-    type: int
-    sql: ${TABLE}.ssn_quality
+    label: 'SSN Data Quality'
+    sql: fn_getPicklistValueName('ssn_quality', ${TABLE}.ssn_quality)
 
   - dimension: unique_identifier
     sql: ${TABLE}.unique_identifier

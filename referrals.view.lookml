@@ -29,8 +29,9 @@
     sql: ${TABLE}.denied_message
 
   - dimension: denied_reason
-    type: int
-    sql: ${TABLE}.denied_reason
+    sql: fn_getPicklistValueName('referral_denied_reason',${TABLE}.denied_reason)    
+
+
 
   - dimension: in_progress
     type: int
@@ -53,8 +54,11 @@
     type: int
     sql: ${TABLE}.reassigned
 
+  - dimension: referring_agency
+    sql: ${referring_agencies.name}
+    
   - dimension: ref_agency
-    type: int
+    hidden: true
     sql: ${TABLE}.ref_agency
 
 #   - dimension: ref_agency_deleted
@@ -62,22 +66,25 @@
 #     sql: ${TABLE}.ref_agency_deleted
 
   - dimension: ref_assessment
+    hidden: true
     type: int
     sql: ${TABLE}.ref_assessment
 
   - dimension: ref_client
+    hidden: true
     type: int
     sql: ${TABLE}.ref_client
-
-  - dimension: ref_navigator
-    type: int
-    sql: ${TABLE}.ref_navigator
-
+# 
+#   - dimension: ref_navigator
+#     type: int
+#     sql: ${TABLE}.ref_navigator
+# 
   - dimension: ref_opening
     type: int
     sql: ${TABLE}.ref_opening
-
+# 
   - dimension: ref_program
+    hidden: true
     type: int
     sql: ${TABLE}.ref_program
 
@@ -104,6 +111,9 @@
   - dimension: type
     type: int
     sql: ${TABLE}.type
+    
+  - dimension: queue_remove_reason
+    sql: fn_getPicklistValueName('queue_remove_reason',${TABLE}.ref_queue_removed_reason)    
 
   - measure: count
     type: count

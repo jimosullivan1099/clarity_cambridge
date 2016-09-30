@@ -17,7 +17,7 @@
 
   - dimension_group: date
     type: time
-    timeframes: [date, week, month]
+    timeframes: [date, week, month, raw]
     convert_tz: false
     sql: ${TABLE}.date
 
